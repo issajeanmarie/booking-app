@@ -4,13 +4,15 @@ import (
 	"booking-app/config"
 	"booking-app/utils"
 	"fmt"
+	"time"
 )
 
+var bookings []uint
 func main(){
 	welcomeMessage := utils.WelcomeMessage()
 	fmt.Println((welcomeMessage))
-	var bookings []uint
 	remainingTickets := config.SitsAvailable
+
 
 	for {
 		// break when no tickets available
@@ -25,9 +27,19 @@ func main(){
 		}
 
 		remainingTickets = remainingTickets - tickets
-		bookings = append(bookings, tickets)
+		bookTicket(tickets)
+		go sendTicket()
 
 	}
 
-	fmt.Println("BOOKINGS: ", bookings)
+}
+
+func bookTicket (tickets uint) {
+	bookings = append(bookings, tickets)
+}
+
+func sendTicket() {
+	time.Sleep(10 * time.Second)
+	var emailMessage = "Thank you for booking tickets with us.."
+	fmt.Println((emailMessage))
 }
